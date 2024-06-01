@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator prismaClassGenerator {
+  provider = "prisma-class-generator"
+  dryRun   = "false"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id      Int           @id @default(autoincrement())
+  email        String        @unique
+  username     String        @unique
+  password     String
+  posts        Post[] //post ref field
+  applications Application[] //application ref field
+}
+
+model Post {
+  post_id     Int           @id @default(autoincrement())
+  post_by     User          @relation(references: [user_id], fields: [user_id]) // Define the relation to User
+  title       String
+  description String?
+  location    String
+  salary      Decimal
+  post_at     DateTime      @default(now())
+  update_at   DateTime      @default(now())
+  user_id     Int //user_id ref field
+  applicants  Application[]
+}
+
+model Application {
+  application_id Int      @id @default(autoincrement())
+  job_id         Post     @relation(references: [post_id], fields: [post_id])
+  applicant_id   User     @relation(references: [user_id], fields: [user_id]) // Define the relation to User
+  cover_letter   String?
+  cv_url         String?
+  status         String
+  create_at      DateTime @default(now())
+  update_at      DateTime @default(now())
+  user_id        Int //user_id ref field
+  post_id        Int //post_id ref field
+}
