@@ -19,6 +19,10 @@ run the autorun.bat file for starting postgres docker image, seed the database, 
 docker compose up -d
 ```
 ```bash
+#migrate the database
+npx prisma migrate dev
+```
+```bash
 #seed the database
 npx prisma db seed
 ```
