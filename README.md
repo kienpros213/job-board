@@ -12,8 +12,6 @@ $ npm install
 ```
 
 ## Running the app
-
-run the autorun.bat file for starting postgres docker image, seed the database, and run the app, or:
 ```bash
 #start postgres docker image
 docker compose up -d
