@@ -13,7 +13,9 @@ import { PostService } from './post.service';
 import { CreatePostDto } from 'src/dto/create.post.dto';
 import { Post as PostModel } from '@prisma/client';
 import { UpdatePostDto } from 'src/dto/update.post.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('JWT-auth')
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}

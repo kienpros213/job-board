@@ -11,7 +11,9 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from 'src/dto/create.user.dto';
 import { UpdateUserDto } from 'src/dto/update.user.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('JWT-auth')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

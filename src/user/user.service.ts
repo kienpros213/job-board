@@ -15,7 +15,7 @@ export class UserService {
 
   //find by username
   async findUser(username: string): Promise<User | null> {
-    return this.prismaService.user
+    const user = await this.prismaService.user
       .findUnique({
         where: {
           username: username,
@@ -24,11 +24,17 @@ export class UserService {
       .catch((error) => {
         throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
       });
+
+    if (!user) {
+      throw new HttpException('Username not found', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
   }
 
   //find by email
   async findUserByEmail(email: string): Promise<User | null> {
-    return this.prismaService.user
+    const userEmail = await this.prismaService.user
       .findUnique({
         where: {
           email: email,
@@ -40,10 +46,15 @@ export class UserService {
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       });
+
+    if (!userEmail) {
+      throw new HttpException('Email not found', HttpStatus.NOT_FOUND);
+    }
+    return userEmail;
   }
 
   async findManyUser(username: string): Promise<User[] | null> {
-    return this.prismaService.user
+    const manyUser = this.prismaService.user
       .findMany({
         where: {
           username: username,
@@ -55,20 +66,47 @@ export class UserService {
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       });
+
+    if (!manyUser) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return manyUser;
   }
 
   //create account
   async createUser(createUserData: CreateUserDto) {
-    const existingUser = await Promise.all([
-      this.findUser(createUserData.username),
-      this.findUserByEmail(createUserData.email),
-    ]);
+    //find user
+    const user = await this.prismaService.user
+      .findUnique({
+        where: {
+          username: createUserData.username,
+        },
+      })
+      .catch((error) => {
+        throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      });
 
-    if (existingUser[0]) {
+    //find email
+    const userEmail = await this.prismaService.user
+      .findUnique({
+        where: {
+          email: createUserData.email,
+        },
+      })
+      .catch((error) => {
+        throw new HttpException(
+          error.meta.cause,
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      });
+
+    //check existence of user and email
+    if (user) {
       throw new ConflictException('Username already exists');
     }
 
-    if (existingUser[1]) {
+    if (userEmail) {
+      console.log(userEmail);
       throw new ConflictException('Email already exists');
     }
 
@@ -110,7 +148,7 @@ export class UserService {
       );
       if (!isExist) {
         throw new HttpException(
-          'wrong password',
+          'Wrong password',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }

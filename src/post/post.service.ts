@@ -17,7 +17,7 @@ export class PostService {
     return await this.prismaService.user
       .update({
         where: {
-          user_id: createPostDto.post_by,
+          user_id: createPostDto.user_id,
         },
         data: {
           posts: {
@@ -112,7 +112,6 @@ export class PostService {
           description: updatePostData.description || undefined,
           location: updatePostData.location || undefined,
           salary: updatePostData.salary || undefined,
-          post_at: updatePostData.post_at || undefined,
           update_at: updatePostData.update_at || undefined,
         },
       })

@@ -3,37 +3,31 @@ import { User } from '@prisma/client';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreatePostDto {
-  @IsNotEmpty()
-  @ApiProperty()
-  post_by: User;
-
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ type: String })
+  @ApiProperty({ default: 'title' })
   title: string;
 
   @IsString()
-  @ApiPropertyOptional({ type: String })
+  @ApiPropertyOptional({ default: 'description' })
   description?: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ type: String })
+  @ApiProperty({ default: 'location' })
   location: string;
 
   @IsNumber()
   @IsNotEmpty()
-  @ApiProperty({ type: Number })
+  @ApiProperty({ default: 'salary' })
   salary: number;
 
   @IsDate()
-  @ApiProperty({ type: Date })
   post_at: Date = new Date();
 
   @IsDate()
-  @ApiProperty({ type: Date })
   update_at: Date = new Date();
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ default: 1 })
   user_id: number;
 }

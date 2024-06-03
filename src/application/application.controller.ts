@@ -10,7 +10,9 @@ import {
 import { ApplicationService } from './application.service';
 import { CreateApplicationDto } from 'src/dto/create.application.dto';
 import { UpdateApplicationDto } from 'src/dto/update.application.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('JWT-auth')
 @Controller('application')
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
