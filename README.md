@@ -26,5 +26,6 @@ npx prisma db seed
 ```
 ```bash
 #run the app
+#swagger ui: localhost:3000/api
 npm run start:dev
 ```
