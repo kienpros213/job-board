@@ -1,7 +1,9 @@
 ## Description
 
-Basic CRUD Backend:
-  - sad
+Basic CRUD Backend, have following feature:
+  - Basic CRUD with 3 tables: User, Post, and Applicantion
+  - JWT authentication
+  - Data validation, handle exception 
 
 ## Installation
 
