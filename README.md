@@ -13,14 +13,16 @@ $ npm install
 
 ## Running the app
 
-run the autorun.bat file for starting postgres docker image, seed the database, and run the app
-or:
+run the autorun.bat file for starting postgres docker image, seed the database, and run the app, or:
 ```bash
+#start postgres docker image
 docker compose up -d
 ```
 ```bash
+#seed the database
 npx prisma db seed
 ```
 ```bash
+#run the app
 npm run start:dev
 ```
